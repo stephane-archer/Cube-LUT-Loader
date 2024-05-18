@@ -18,6 +18,7 @@ class InputParams {
 private:
 	ProcessingMode processingMode{};
 	bool showHelp{};
+	bool forceOverwrite{};
 	std::string inputImgPath;
 	std::string outputImgPath;
 	std::string inputLutPath;
@@ -54,6 +55,8 @@ public:
 	ProcessingMode getProcessingMode() const;
 	bool getShowHelp() const;
 	void setShowHelp(bool value);
+	bool getForceOverwrite() const;
+	void setForceOverwrite(bool value);
 	std::string getInputImgPath() const;
 	void setInputImgPath(const std::string& inputPath);
 	std::string getOutputImgPath() const;

@@ -4,6 +4,14 @@ InputParams::InputParams(boost::program_options::variables_map&& vm) {
 	parseInputParams(std::move(vm));
 }
 
+namespace {
+void setBoolParamIfAvailable(const std::string& key, bool& field, const boost::program_options::variables_map& vm) {
+	if (vm.count(key)) {
+		field = true;
+	}
+}
+} // namespace
+
 void InputParams::parseInputParams(boost::program_options::variables_map&& vm) {
 	if (vm.count("gpu")) {
 		processingMode = ProcessingMode::GPU;
@@ -16,7 +24,8 @@ void InputParams::parseInputParams(boost::program_options::variables_map&& vm) {
 		interpolationMethod = InterpolationMethod::NearestValue;
 	}
 
-	setParam("help", showHelp, vm);
+	setBoolParamIfAvailable("help", showHelp, vm);
+	setBoolParamIfAvailable("force", forceOverwrite, vm);
 	setParam("input", inputImgPath, vm);
 	setParam("output", outputImgPath, vm);
 	setParam("lut", inputLutPath, vm);
@@ -41,6 +50,14 @@ bool InputParams::getShowHelp() const {
 
 void InputParams::setShowHelp(bool value) {
 	showHelp = value;
+}
+
+bool InputParams::getForceOverwrite() const {
+	return forceOverwrite;
+}
+
+void InputParams::setForceOverwrite(bool value) {
+	forceOverwrite = value;
 }
 
 std::string InputParams::getInputImgPath() const {
